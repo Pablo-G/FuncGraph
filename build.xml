@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="FuncGraph" default="Help" basedir="." >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir"   value="src" />
+  <property name="lib.dir"   value="lib" />
+  <property name="doc.dir"   value="doc" />
+
+  <target name="Help">
+    <echo message="Compile | Compila el proyecto."/>
+    <echo message="Clean | Restaura la carpeta a su configuración inicial."/>
+    <echo message="Document | Compila, empaqueta y genera la documentación del proyecto."/>
+    <echo message="FuncGraph.jar | Compila y empaqueta el proyecto."/>
+    <echo message="Help | Muestra esta lista de opciones."/>
+    <echo message="Test | Corre las pruebas unitarias."/>
+  </target>
+
+  <target name="FuncGraph.jar" depends="Compile">
+    <jar jarfile="FuncGraph.jar">
+      <zipfileset dir="${build.dir}" prefix="" />
+      <manifest>
+        <attribute name="Main-Class" value="FuncGraph.App"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="Compile">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}"
+           debug="true"
+           debuglevel="lines,vars,source"
+           includeantruntime="false"
+           deprecation="true"
+           nowarn="off"
+           encoding="utf-8">
+      <classpath>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+      <compilerarg value="-Xlint:unchecked"/>
+    </javac>
+  </target>
+
+  <target name="Document" depends="FuncGraph.jar">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc packagenames="FuncGraph.*"
+             sourcepath="src"
+             defaultexcludes="yes"
+             destdir="${doc.dir}"
+             charset="UTF-8"
+             author="false"
+             version="false"
+             use="true"
+             windowtitle="FuncGraph">
+      <doctitle><![CDATA[<h1>FuncGraph</h1>]]></doctitle>
+      <link href="http://docs.oracle.com/javase/8/docs/api/" />
+      <classpath>
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+      </classpath>
+    </javadoc>
+  </target>
+
+  <target name="Clean">
+    <delete file="FuncGraph.jar"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
+  </target>
+
+  <target name="Test" depends="FuncGraph.jar">
+    <junit printsummary="yes" haltonfailure="no">
+      <formatter type="plain" usefile="false" />
+      <classpath>
+        <pathelement path="${build.dir}" />
+        <pathelement location="${lib.dir}/junit.jar" />
+        <pathelement location="${lib.dir}/hamcrest-core.jar" />
+      </classpath>
+      <batchtest fork="yes">
+        <fileset dir="${src.dir}">
+          <include name="**/*Test*.java" />
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+</project>
