@@ -96,4 +96,36 @@ public class TestToken{
 		Assert.assertTrue(t.getValor() == Valor.DIGITOS);
 		Assert.assertTrue(t.getDigitos() == b);
 	}
+
+	@Test public void testTokenEquals(){
+
+		int na = random.nextInt();
+		double nb = random.nextGaussian();
+
+		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
+		Token b = new Token(Tipo.OPERADOR, Valor.SUMA);
+
+		Token c = new Token(Tipo.OPERADOR, Valor.RESTA);
+		Token d = new Token(Tipo.OPERADOR, Valor.RESTA);
+
+		Token e = new Token(Tipo.NUMERO, Valor.DIGITOS);
+		Token f = new Token(Tipo.NUMERO, Valor.DIGITOS);
+		e.getValor().setDigitos(na);
+		f.getValor().setDigitos(na);
+
+		Token g = new Token(Tipo.OPERADOR, Valor.DIGITOS);
+		Token h = new Token(Tipo.OPERADOR, Valor.DIGITOS);
+		g.getValor().setDigitos(nb);
+		h.getValor().setDigitos(nb);
+
+		Assert.assertTrue(a.equals(b));
+		Assert.assertTrue(c.equals(d));
+		Assert.assertTrue(e.equals(f));
+		Assert.assertTrue(g.equals(h));
+
+		Assert.assertFalse(a.equals(c));
+		Assert.assertFalse(e.equals(h));
+
+		Assert.assertFalse(a.equals(e));
+	}
 }

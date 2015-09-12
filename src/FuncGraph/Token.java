@@ -21,4 +21,16 @@ public class Token{
 	public double getDigitos(){
 		return this.v.getDigitos();
 	}
+
+	public boolean equals(Token t){
+		if (this.getTipo() == t.getTipo()) {
+			if (this.getValor() == t.getValor()) {
+				return this.getValor().getDigitos() == t.getValor().getDigitos();
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
 }
