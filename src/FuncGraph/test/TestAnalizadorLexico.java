@@ -135,7 +135,7 @@ public class TestAnalizadorLexico{
 			Assert.fail();
 		}
 		try{
-			AnalizadorLexico al6 = new AnalizadorLexico("sin(cos(tan(csc(sec(cot(x))))))");
+			AnalizadorLexico al6 = new AnalizadorLexico("sin(cos(tan(csc(sec(cot(x))))))*7543");
 			LinkedList<Token> l6 = new LinkedList<Token>();
 			l6.add(new Token(Tipo.FUNCION, Valor.SIN));
 			l6.add(new Token(Tipo.PARENTESIS, Valor.ABIERTO));
@@ -156,6 +156,8 @@ public class TestAnalizadorLexico{
 			l6.add(new Token(Tipo.PARENTESIS, Valor.CERRADO));
 			l6.add(new Token(Tipo.PARENTESIS, Valor.CERRADO));
 			l6.add(new Token(Tipo.PARENTESIS, Valor.CERRADO));
+			l6.add(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
+			l6.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 7543));
 
 			Assert.assertTrue(al6.generaListaTokens().equals(l6));
 		}catch(ExcepcionEntradaInvalida a){
