@@ -4,10 +4,18 @@ public class Token{
 	
 	private Tipo t;
 	private Valor v;
+	private double d;
 
 	public Token(Tipo tipo, Valor valor){
 		this.t = tipo;
 		this.v = valor;
+		this.d = 0;
+	}
+
+	public Token(Tipo tipo, Valor valor, double digitos){
+		this.t = tipo;
+		this.v = valor;
+		this.d = digitos;
 	}
 
 	public Tipo getTipo(){
@@ -19,7 +27,7 @@ public class Token{
 	}
 
 	public double getDigitos(){
-		return this.v.getDigitos();
+		return this.d;
 	}
 
 	@Override public boolean equals(Object o) {
@@ -30,7 +38,7 @@ public class Token{
             @SuppressWarnings("unchecked") Token t = (Token)o;
 	        if (this.getTipo() == t.getTipo()) {
 				if (this.getValor() == t.getValor()) {
-					return this.getValor().getDigitos() == t.getValor().getDigitos();
+					return this.getDigitos() == t.getDigitos();
 				}else{
 					return false;
 				}
@@ -40,6 +48,10 @@ public class Token{
     }
 
 	@Override public String toString(){
-		return "[" + t + " , " + v + "-|" + v.getDigitos() + "|-" + "]";
+		if (this.v == Valor.DIGITOS) {
+			return "[" + t + " , " + v + "-|" + d + "|-" + "]";
+		}else{
+			return "[" + t + " , " + v + "]"; 
+		}
 	}
 }

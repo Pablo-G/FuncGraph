@@ -62,9 +62,7 @@ public class TestAnalizadorLexico{
 			AnalizadorLexico al1 = new AnalizadorLexico("-1");
 			LinkedList<Token> l1 = new LinkedList<Token>();
 			l1.add(new Token(Tipo.OPERADOR, Valor.RESTA));
-			Token t = new Token(Tipo.NUMERO, Valor.DIGITOS);
-			t.getValor().setDigitos(1);
-			l1.add(t);
+			l1.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 1));
 
 			al1.generaListaTokens().equals(l1);
 		}catch(ExcepcionEntradaInvalida a){
@@ -74,20 +72,18 @@ public class TestAnalizadorLexico{
 			AnalizadorLexico al2 = new AnalizadorLexico("-2+3*5-3/2.32x");
 			LinkedList<Token> l2 = new LinkedList<Token>();
 			l2.add(new Token(Tipo.OPERADOR, Valor.RESTA));
-			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 2));
 			l2.add(new Token(Tipo.OPERADOR, Valor.SUMA));
-			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 3));
 			l2.add(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
-			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 5));
 			l2.add(new Token(Tipo.OPERADOR, Valor.RESTA));
-			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 3));
 			l2.add(new Token(Tipo.OPERADOR, Valor.DIVISION));
-			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l2.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 2.32));
 			l2.add(new Token(Tipo.VARIABLE, Valor.X));
 
 			Assert.assertTrue(al2.generaListaTokens().equals(l2));
-			System.out.println(l2);
-			System.out.println(al2.generaListaTokens());
 		}catch(ExcepcionEntradaInvalida a){
 			Assert.fail();
 		}
@@ -108,10 +104,10 @@ public class TestAnalizadorLexico{
 			LinkedList<Token> l4 = new LinkedList<Token>();
 			l4.add(new Token(Tipo.VARIABLE, Valor.X));
 			l4.add(new Token(Tipo.OPERADOR, Valor.POTENCIA));
-			l4.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l4.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 2));
 			l4.add(new Token(Tipo.OPERADOR, Valor.SUMA));
 			l4.add(new Token(Tipo.PARENTESIS, Valor.ABIERTO));
-			l4.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l4.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 3));
 			l4.add(new Token(Tipo.OPERADOR, Valor.DIVISION));
 			l4.add(new Token(Tipo.VARIABLE, Valor.X));
 			l4.add(new Token(Tipo.PARENTESIS, Valor.CERRADO));
@@ -125,9 +121,9 @@ public class TestAnalizadorLexico{
 			LinkedList<Token> l5 = new LinkedList<Token>();
 			l5.add(new Token(Tipo.VARIABLE, Valor.X));
 			l5.add(new Token(Tipo.OPERADOR, Valor.POTENCIA));
-			l5.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l5.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 2));
 			l5.add(new Token(Tipo.OPERADOR, Valor.SUMA));
-			l5.add(new Token(Tipo.NUMERO, Valor.DIGITOS));
+			l5.add(new Token(Tipo.NUMERO, Valor.DIGITOS, 3));
 			l5.add(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
 			l5.add(new Token(Tipo.FUNCION, Valor.SIN));
 			l5.add(new Token(Tipo.PARENTESIS, Valor.ABIERTO));

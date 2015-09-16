@@ -84,14 +84,12 @@ public class TestToken{
 		int a = random.nextInt();
 		double b = random.nextGaussian();
 
-		Token t = new Token(Tipo.NUMERO, Valor.DIGITOS);
-		t.getValor().setDigitos(a);
+		Token t = new Token(Tipo.NUMERO, Valor.DIGITOS, a);
 		Assert.assertTrue(t.getTipo() == Tipo.NUMERO);
 		Assert.assertTrue(t.getValor() == Valor.DIGITOS);
 		Assert.assertTrue(t.getDigitos() == a);
 
-		t = new Token(Tipo.NUMERO, Valor.DIGITOS);
-		t.getValor().setDigitos(b);
+		t = new Token(Tipo.NUMERO, Valor.DIGITOS, b);
 		Assert.assertTrue(t.getTipo() == Tipo.NUMERO);
 		Assert.assertTrue(t.getValor() == Valor.DIGITOS);
 		Assert.assertTrue(t.getDigitos() == b);
@@ -108,15 +106,11 @@ public class TestToken{
 		Token c = new Token(Tipo.OPERADOR, Valor.RESTA);
 		Token d = new Token(Tipo.OPERADOR, Valor.RESTA);
 
-		Token e = new Token(Tipo.NUMERO, Valor.DIGITOS);
-		Token f = new Token(Tipo.NUMERO, Valor.DIGITOS);
-		e.getValor().setDigitos(na);
-		f.getValor().setDigitos(na);
+		Token e = new Token(Tipo.NUMERO, Valor.DIGITOS, na);
+		Token f = new Token(Tipo.NUMERO, Valor.DIGITOS, na);
 
-		Token g = new Token(Tipo.OPERADOR, Valor.DIGITOS);
-		Token h = new Token(Tipo.OPERADOR, Valor.DIGITOS);
-		g.getValor().setDigitos(nb);
-		h.getValor().setDigitos(nb);
+		Token g = new Token(Tipo.OPERADOR, Valor.DIGITOS, nb);
+		Token h = new Token(Tipo.OPERADOR, Valor.DIGITOS, nb);
 
 		Assert.assertTrue(a.equals(b));
 		Assert.assertTrue(c.equals(d));

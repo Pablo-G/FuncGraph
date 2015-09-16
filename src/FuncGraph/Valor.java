@@ -16,16 +16,4 @@ public enum Valor{
 	CSC,
 	X,
 	DIGITOS;
-
-	private double digitos;
-
-	public void setDigitos(double d){
-		this.digitos = d;
-	}
-
-	public double getDigitos(){
-		return this.digitos;
-	}
-
-
 }
