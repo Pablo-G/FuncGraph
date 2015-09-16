@@ -22,15 +22,24 @@ public class Token{
 		return this.v.getDigitos();
 	}
 
-	public boolean equals(Token t){
-		if (this.getTipo() == t.getTipo()) {
-			if (this.getValor() == t.getValor()) {
-				return this.getValor().getDigitos() == t.getValor().getDigitos();
+	@Override public boolean equals(Object o) {
+            if (o == null)
+                return false;
+            if (getClass() != o.getClass())
+                return false;
+            @SuppressWarnings("unchecked") Token t = (Token)o;
+	        if (this.getTipo() == t.getTipo()) {
+				if (this.getValor() == t.getValor()) {
+					return this.getValor().getDigitos() == t.getValor().getDigitos();
+				}else{
+					return false;
+				}
 			}else{
 				return false;
 			}
-		}else{
-			return false;
-		}
+    }
+
+	@Override public String toString(){
+		return "[" + t + " , " + v + "-|" + v.getDigitos() + "|-" + "]";
 	}
 }
