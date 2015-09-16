@@ -68,14 +68,20 @@ public class AnalizadorLexico{
 									i++;
 									i++;
 									break;
-								}else if(a == 'e' && b == 'c') {
+								}else if (a == 'e' && b == 'c') {
 									lista.add(new Token(Tipo.FUNCION, Valor.SEC));
 									i++;
 									i++;
 									i++;
 									break;
+								}else if (a == 'q' && b == 'r') {
+									lista.add(new Token(Tipo.FUNCION, Valor.SQR));
+									i++;
+									i++;
+									i++;
+									break;
 								}else{
-									throw new ExcepcionEntradaInvalida("ERROR S No SIN o SEC");
+									throw new ExcepcionEntradaInvalida("ERROR S No SIN o SEC o SQR");
 								}
 
 							}catch(IndexOutOfBoundsException a){

@@ -14,6 +14,7 @@ public enum Valor{
 	COT,
 	SEC,
 	CSC,
+	SQR,
 	X,
 	DIGITOS;
 }

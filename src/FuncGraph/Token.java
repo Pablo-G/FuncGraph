@@ -26,8 +26,31 @@ public class Token{
 		return this.v;
 	}
 
+	public void setValor(Valor valor){
+		this.v = valor;
+	}
+
 	public double getDigitos(){
 		return this.d;
+	}
+
+	public boolean esMayorPres(Token m){
+		switch(this.getValor()){
+			case SUMA: case RESTA:{
+				return true;
+			}
+			case MULTIPLICACION: case DIVISION:{
+				if (m.getValor() == Valor.SUMA || m.getValor() == Valor.RESTA){
+					return false;
+				}else{
+					return true;
+				}
+			}
+			case POTENCIA:{
+				return false;
+			}
+		}
+		return false;
 	}
 
 	@Override public boolean equals(Object o) {
