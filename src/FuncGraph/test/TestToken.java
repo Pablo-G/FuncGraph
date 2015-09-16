@@ -12,7 +12,7 @@ public class TestToken{
 	private Random random;
 
 	public TestToken(){
-		random = new Random();
+		this.random = new Random();
 	}
 
 	@Test public void testTokenParentesis(){
