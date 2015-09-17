@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import FuncGraph.Token;
 import FuncGraph.Tipo;
 import FuncGraph.Valor;
+import FuncGraph.NodoArbol;
 import FuncGraph.AnalizadorLexico;
 import FuncGraph.AnalizadorSintactico;
 import FuncGraph.ExcepcionEntradaInvalida;
@@ -190,5 +191,45 @@ public class TestAnalizadorSintactico{
 		}catch(ExcepcionEntradaInvalida a){
 			Assert.fail();
 		}
+	}
+
+	@Test public void testASGeneraArbol(){
+		AnalizadorSintactico an;
+
+		NodoArbol sum = new NodoArbol(new Token(Tipo.OPERADOR, Valor.SUMA));
+		NodoArbol pot = new NodoArbol(new Token(Tipo.OPERADOR, Valor.POTENCIA));
+		pot.agregaHI(new NodoArbol(new Token(Tipo.VARIABLE, Valor.X)));
+		pot.agregaHD(new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, 2)));
+		sum.agregaHI(new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, 5)));
+		sum.agregaHD(pot);
+		try{
+			an = new AnalizadorSintactico(new AnalizadorLexico("5+x^2").generaListaTokens());
+			Assert.assertTrue(sum.equals(an.generaArbol()));
+		}catch(ExcepcionEntradaInvalida a){
+			Assert.fail();
+		}
+
+		NodoArbol sin = new NodoArbol(new Token(Tipo.FUNCION, Valor.SIN));
+		NodoArbol sums = new NodoArbol(new Token(Tipo.OPERADOR, Valor.SUMA));
+		sums.agregaHI(new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, 3)));
+		sums.agregaHD(new NodoArbol(new Token(Tipo.VARIABLE, Valor.X)));
+		sin.agregaHD(sums);
+		try{
+			an = new AnalizadorSintactico(new AnalizadorLexico("sin(3+x)").generaListaTokens());
+			Assert.assertTrue(sin.equals(an.generaArbol()));
+		}catch(ExcepcionEntradaInvalida a){
+			Assert.fail();
+		}
+
+		NodoArbol par = new NodoArbol(new Token(Tipo.OPERADOR, Valor.RESTA));
+		par.agregaHI(new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, 8)));
+		par.agregaHD(new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, 3)));
+		try{
+			an = new AnalizadorSintactico(new AnalizadorLexico("(8)-(3)").generaListaTokens());
+			Assert.assertTrue(par.equals(an.generaArbol()));
+		}catch(ExcepcionEntradaInvalida a){
+			Assert.fail();
+		}
+
 	}
 }
