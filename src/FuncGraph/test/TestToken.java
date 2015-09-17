@@ -122,4 +122,38 @@ public class TestToken{
 
 		Assert.assertFalse(a.equals(e));
 	}
+
+	@Test public void testSetValor(){
+		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
+		Token b = new Token(Tipo.OPERADOR, Valor.RESTA);
+
+		a.setValor(Valor.RESTA);
+		b.setValor(Valor.MULTIPLICACION);
+
+		Assert.assertTrue(a.getValor() == Valor.RESTA);
+		Assert.assertTrue(b.getValor() == Valor.MULTIPLICACION);
+	}
+
+	@Test public void testToString(){
+		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
+		Token b = new Token(Tipo.NUMERO, Valor.DIGITOS, 5.156);
+
+		Assert.assertTrue(a.toString().equals("[OPERADOR , SUMA]"));
+		Assert.assertTrue(b.toString().equals("[NUMERO , DIGITOS-|5.156|-]"));
+	}
+
+	@Test public void testEsMayorPres(){
+		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
+		Token b = new Token(Tipo.OPERADOR, Valor.RESTA);
+		Token c = new Token(Tipo.OPERADOR, Valor.MULTIPLICACION);
+		Token d = new Token(Tipo.OPERADOR, Valor.POTENCIA);
+
+		Assert.assertTrue(a.esMayorPres(b));
+		Assert.assertTrue(a.esMayorPres(c));
+		Assert.assertTrue(a.esMayorPres(d));
+		Assert.assertFalse(c.esMayorPres(b));
+		Assert.assertTrue(c.esMayorPres(d));
+		Assert.assertFalse(d.esMayorPres(a));
+		Assert.assertFalse(d.esMayorPres(c));
+	}
 }
