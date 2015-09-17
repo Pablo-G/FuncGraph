@@ -113,4 +113,37 @@ public class TestNodoArbol{
 
 		Assert.assertTrue(ar1.evalua(0) == 5);
 	}
+
+	@Test public void testEquals(){
+		NodoArbol a = new NodoArbol(new Token(Tipo.FUNCION, Valor.SIN));
+		NodoArbol b = new NodoArbol(new Token(Tipo.FUNCION, Valor.SIN));
+		NodoArbol c = new NodoArbol(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
+		NodoArbol d = new NodoArbol(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
+		NodoArbol e = new NodoArbol(new Token(Tipo.VARIABLE, Valor.X));
+		NodoArbol f = new NodoArbol(new Token(Tipo.VARIABLE, Valor.X));
+
+		Assert.assertTrue(a.equals(b));
+
+		c.agregaHD(e);
+		d.agregaHD(f);
+
+		Assert.assertTrue(c.equals(d));
+
+		c.agregaHI(a);
+		d.agregaHI(b);
+
+		Assert.assertTrue(c.equals(d));
+
+		NodoArbol g = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS));
+		NodoArbol h = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS));
+		e.agregaHI(g);
+		f.agregaHD(h);
+
+		Assert.assertFalse(c.equals(d));
+		Assert.assertFalse(c.equals(f));
+		Assert.assertFalse(d.equals(c));
+		Assert.assertFalse(d.equals(e));
+		Assert.assertFalse(e.equals(f));
+
+	}
 }
