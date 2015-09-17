@@ -121,7 +121,7 @@ public class AnalizadorSintactico{
 					nlistaTokens.add(stack.pop());
 				}
 				stack.pop();
-				if (stack.peek().getTipo() == Tipo.FUNCION) {
+				if (!stack.empty() && stack.peek().getTipo() == Tipo.FUNCION) {
 					nlistaTokens.add(stack.pop());
 				}
 			}
@@ -131,5 +131,35 @@ public class AnalizadorSintactico{
 		}
 
 		return nlistaTokens;
+	}
+
+	public NodoArbol generaArbol() throws ExcepcionEntradaInvalida{
+		ListIterator<Token> it = shuntingYard().listIterator(0);
+		Stack<NodoArbol> stack = new Stack<NodoArbol>();
+
+		while(it.hasNext()){
+			Token actual = it.next();
+			switch(actual.getValor()){
+				case X: case DIGITOS:{
+					stack.push(new NodoArbol(actual));
+					break;
+				}
+				case SUMA: case RESTA: case MULTIPLICACION: case DIVISION: case POTENCIA:{
+					NodoArbol actualN = new NodoArbol(actual);
+					actualN.agregaHD(stack.pop());
+					actualN.agregaHI(stack.pop());
+					stack.push(actualN);
+					break;
+				}
+				case SIN: case COS: case TAN: case CSC: case SEC: case COT: case SQR:{
+					NodoArbol actualN = new NodoArbol(actual);
+					actualN.agregaHD(stack.pop());
+					stack.push(actualN);
+					break;
+				}
+			}
+		}
+
+		return stack.pop();
 	}
 }
