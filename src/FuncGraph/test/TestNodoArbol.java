@@ -24,33 +24,57 @@ public class TestNodoArbol{
 		this.valorB = new NodoArbol(new Token(Tipo.VARIABLE, Valor.X));
 	}
 
-	@Test public void testDigitoyX(){
+	@Test public void testGetHI(){
+		valorA.agregaHI(valorB);
+		Assert.assertTrue(valorA.getHI() == valorB);
+	}
+
+	@Test public void testGetHD(){
+		valorA.agregaHD(valorB);
+		Assert.assertTrue(valorA.getHD() == valorB);
+	}
+
+	@Test public void testAgergaHI(){
+		valorA.agregaHI(valorB);
+		Assert.assertTrue(valorA.getHI() == valorB);
+	}
+
+	@Test public void testAgergaHD(){
+		valorA.agregaHD(valorB);
+		Assert.assertTrue(valorA.getHD() == valorB);
+	}
+
+	@Test public void testGetElemento(){
+		valorA.getElemento().equals(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
+		valorB.getElemento().equals(new Token(Tipo.VARIABLE, Valor.X));
+	}
+	@Test public void testEvaluaDigitoyX(){
 		Assert.assertTrue(valorA.evalua(0) == valorAI);
 		Assert.assertTrue(valorB.evalua(valorBI) == valorBI);
 	}
 
-	@Test public void testSuma(){
+	@Test public void testEvaluaSuma(){
 		NodoArbol sum = new NodoArbol(new Token(Tipo.OPERADOR, Valor.SUMA));
 		sum.agregaHI(valorA);
 		sum.agregaHD(valorB);
 		Assert.assertTrue(sum.evalua(valorBI) == (valorAI + valorBI));
 	}
 
-	@Test public void testResta(){
+	@Test public void testEvaluaResta(){
 		NodoArbol res = new NodoArbol(new Token(Tipo.OPERADOR, Valor.RESTA));
 		res.agregaHI(valorA);
 		res.agregaHD(valorB);
 		Assert.assertTrue(res.evalua(valorBI) == (valorAI - valorBI));
 	}
 
-	@Test public void testMultiplicacion(){
+	@Test public void testEvaluaMultiplicacion(){
 		NodoArbol mul = new NodoArbol(new Token(Tipo.OPERADOR, Valor.MULTIPLICACION));
 		mul.agregaHI(valorA);
 		mul.agregaHD(valorB);
 		Assert.assertTrue(mul.evalua(valorBI) == (valorAI * valorBI));
 	}
 
-	@Test public void testDivision(){
+	@Test public void testEvaluaDivision(){
 		this.valorAI = 30;
 		this.valorBI = 5;
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
@@ -62,7 +86,7 @@ public class TestNodoArbol{
 		Assert.assertTrue(div.evalua(valorBI) == (valorAI / valorBI));
 	}
 
-	@Test public void testPotencia(){
+	@Test public void testEvaluaPotencia(){
 		this.valorAI = random.nextInt(10);
 		this.valorBI = random.nextInt(5);
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
@@ -74,7 +98,7 @@ public class TestNodoArbol{
 		Assert.assertTrue(pot.evalua(valorBI) == (Math.pow(valorAI, valorBI)));
 	}
 
-	@Test public void testSin(){
+	@Test public void testEvaluaSin(){
 		this.valorAI = 0;
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
 
@@ -84,7 +108,7 @@ public class TestNodoArbol{
 		Assert.assertTrue(ar1.evalua(0) == 0);
 	}
 
-	@Test public void testCos(){
+	@Test public void testEvaluaCos(){
 		this.valorAI = 0;
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
 
@@ -94,7 +118,7 @@ public class TestNodoArbol{
 		Assert.assertTrue(ar1.evalua(0) == 1);
 	}
 
-	@Test public void testTan(){
+	@Test public void testEvaluaTan(){
 		this.valorAI = 0;
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
 
@@ -104,7 +128,7 @@ public class TestNodoArbol{
 		Assert.assertTrue(ar1.evalua(0) == 0);
 	}
 
-	@Test public void testSqr(){
+	@Test public void testEvaluaSqr(){
 		this.valorAI = 25;
 		this.valorA = new NodoArbol(new Token(Tipo.NUMERO, Valor.DIGITOS, valorAI));
 
