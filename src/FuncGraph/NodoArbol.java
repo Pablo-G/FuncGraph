@@ -20,6 +20,18 @@ public class NodoArbol{
 		hijoDer = nvo;
 	}
 
+	public Token getElemento(){
+		return this.elemento;
+	}
+
+	public NodoArbol getHI(){
+		return this.hijoIzq;
+	}
+
+	public NodoArbol getHD(){
+		return this.hijoDer;
+	}
+
 	public double evalua(double x){
 		switch(elemento.getValor()){
 			case SUMA:{
@@ -67,5 +79,29 @@ public class NodoArbol{
 		}
 		return -1;
 	}
+
+	@Override public boolean equals(Object o) {
+            if (o == null)
+                return false;
+            if (getClass() != o.getClass())
+                return false;
+            @SuppressWarnings("unchecked") NodoArbol t = (NodoArbol)o;
+            if (!this.elemento.equals(t.elemento)) {
+            	return false;
+            }
+            if (this.getHI() == null && t.getHI() == null && this.getHD() == null && t.getHD() == null ) {
+            	return true;
+            }
+            if (this.getHI() != null && this.getHD() != null) {
+            	return this.getHI().equals(t.getHI()) && this.getHD().equals(t.getHD());
+            }
+            if (this.getHI() != null) {
+            	return this.getHI().equals(t.getHI());
+            }
+            if (this.getHD() != null) {
+            	return this.getHD().equals(t.getHD());
+            }
+            return false;
+    }
 
 }
