@@ -19,7 +19,7 @@
     <jar jarfile="FuncGraph.jar">
       <zipfileset dir="${build.dir}" prefix="" />
       <manifest>
-        <attribute name="Main-Class" value="FuncGraph.App"/>
+        <attribute name="Main-Class" value="FuncGraph.Controlador"/>
       </manifest>
     </jar>
   </target>

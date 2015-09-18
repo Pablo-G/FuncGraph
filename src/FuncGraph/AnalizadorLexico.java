@@ -81,11 +81,15 @@ public class AnalizadorLexico{
 									i++;
 									break;
 								}else{
-									throw new ExcepcionEntradaInvalida("ERROR S No SIN o SEC o SQR");
+									if (a != 'i' || a != 'e' || a != 'q') {
+										throw new ExcepcionEntradaInvalida("E00-" + i+1 + " | Identificador Desconocido.");
+									}else{
+										throw new ExcepcionEntradaInvalida("E00-" + i+2 + " | Identificador Desconocido.");
+									}
 								}
 
 							}catch(IndexOutOfBoundsException a){
-								throw new ExcepcionEntradaInvalida("ERROR S IndexOutBound");
+								throw new ExcepcionEntradaInvalida("E00-" + i + " | Identificador Desconocido.");
 							}
 				}
 				case 'c': {
@@ -112,10 +116,14 @@ public class AnalizadorLexico{
 									i++;
 									break;
 								}else{
-									throw new ExcepcionEntradaInvalida("ERROR C No COS o COT o CSC");
+									if (a != 'o' || a != 's') {
+										throw new ExcepcionEntradaInvalida("E00-" + i+1 + " | Identificador Desconocido.");
+									}else{
+										throw new ExcepcionEntradaInvalida("E00-" + i+2 + " | Identificador Desconocido.");
+									}
 								}
 							}catch(IndexOutOfBoundsException a){
-								throw new ExcepcionEntradaInvalida("ERROR C IndexOutBound");
+								throw new ExcepcionEntradaInvalida("E00-" + i + " | Identificador Desconocido.");
 							}
 				}
 				case 't': {
@@ -130,10 +138,14 @@ public class AnalizadorLexico{
 									i++;
 									break;
 								}else{
-									throw new ExcepcionEntradaInvalida("ERROR T No Tan");
+									if (a != 'a') {
+										throw new ExcepcionEntradaInvalida("E00-" + i+1 + " | Identificador Desconocido.");
+									}else{
+										throw new ExcepcionEntradaInvalida("E00-" + i+2 + " | Identificador Desconocido.");
+									}
 								}
 							}catch(IndexOutOfBoundsException a){
-								throw new ExcepcionEntradaInvalida("ERROR T IndexOutBound");
+								throw new ExcepcionEntradaInvalida("E00-" + i + " | Identificador Desconocido.");
 							}
 				}
 				case 'x': {
@@ -157,7 +169,7 @@ public class AnalizadorLexico{
 
 								if (a == '.') {
 									if (punto) {
-										throw new ExcepcionEntradaInvalida("ERROR DOS PUNTOS");
+										throw new ExcepcionEntradaInvalida("E00-" + i + " | '.' Inesperado.");
 									}else{
 										num = num + a;
 										punto = true;
@@ -178,7 +190,7 @@ public class AnalizadorLexico{
 							break;
 				}
 				default: {
-					throw new ExcepcionEntradaInvalida("No es un caracter valido");
+					throw new ExcepcionEntradaInvalida("E00-" + i + " | Identificador Desconocido.");
 				}
 			}
 
@@ -187,7 +199,7 @@ public class AnalizadorLexico{
 		if (contadorPa == 0) {
 			return lista;
 		}else{
-			throw new ExcepcionEntradaInvalida("ERROR PARENTESIS");
+			throw new ExcepcionEntradaInvalida("E00-0 | Parentesis Incompletos.");
 		}
 	}
 
