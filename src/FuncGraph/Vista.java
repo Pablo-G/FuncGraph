@@ -202,7 +202,11 @@ public class Vista extends Application{
 
     public void agregaFuncion(double[] valoresY){
     	for (int i = 0; i < valoresY.length-1 ; i++) {
-    		this.ejes.getChildren().add(new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1])));
+    		if (valoresY[i] == -315 || valoresY[i+1] == 315) {
+    			
+    		}else{
+    			this.ejes.getChildren().add(new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1])));
+    		}
     	}
     	bordes.setCenter(ejes);
     }
