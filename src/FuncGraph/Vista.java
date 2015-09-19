@@ -151,8 +151,10 @@ public class Vista extends Application{
 							double[] valoresY = new double[1130];
 							for (int i = 0; i < valoresY.length ; i++) {
 								double a = arbol.evalua(i-565);
-								if (a < -315 || a > 315) {
-									a = 0;
+								if (a < -315) {
+									a = -315;
+								}else if (a > 315) {
+									a = 315;
 								}
 								valoresY[i] = a;
 							}
@@ -199,8 +201,8 @@ public class Vista extends Application{
     }
 
     public void agregaFuncion(double[] valoresY){
-    	for (int i = 0; i < valoresY.length ; i++) {
-    		this.ejes.getChildren().add(new Circle(i, 630-(315+valoresY[i]), 1));
+    	for (int i = 0; i < valoresY.length-1 ; i++) {
+    		this.ejes.getChildren().add(new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1])));
     	}
     	bordes.setCenter(ejes);
     }
