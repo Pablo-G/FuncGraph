@@ -19,6 +19,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.event.ActionEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.paint.Paint;
 
 public class Vista extends Application{
 
@@ -29,7 +31,7 @@ public class Vista extends Application{
 	private TextField despX;
 	private TextField despY;
 	private Button generaGraf;
-	private Button color;
+	private ColorPicker color;
 	private Button svg;
 	private Button pdf;
 	private Button jpg;
@@ -71,11 +73,9 @@ public class Vista extends Application{
 		gridME.add(hgeneraGraf, 0, 2);
 		excepciones = new Text();
 	    gridME.add(excepciones, 0, 3);
-		color = new Button("Color");
-		HBox hcolor = new HBox(10);
-		hcolor.setAlignment(Pos.BOTTOM_CENTER);
-		hcolor.getChildren().add(color);
-		gridME.add(hcolor, 0, 4);
+		color = new ColorPicker();
+        color.setValue(Color.CORAL);
+		gridME.add(color, 0, 4);
 
 		bordes.setLeft(gridME);
 
@@ -142,30 +142,70 @@ public class Vista extends Application{
 
 		bordes.setCenter(ejes);
 
-			entradaFuncion.setOnKeyPressed(new EventHandler<KeyEvent>(){
-				@Override public void handle(final KeyEvent kE){
-					if (kE.getCode() == KeyCode.ENTER) {
-						try{
-							controlador.setAnalizadorLexico(entradaFuncion.getText());
-							NodoArbol arbol = controlador.pideArbol();
-							double[] valoresY = new double[1130];
-							for (int i = 0; i < valoresY.length ; i++) {
-								double a = arbol.evalua(i-565);
-								if (a < -315) {
-									a = -315;
-								}else if (a > 315) {
-									a = 315;
-								}
-								valoresY[i] = a;
+		entradaFuncion.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			@Override public void handle(final KeyEvent kE){
+				if (kE.getCode() == KeyCode.ENTER) {
+					try{
+						controlador.setAnalizadorLexico(entradaFuncion.getText());
+						NodoArbol arbol = controlador.pideArbol();
+						double[] valoresY = new double[1130];
+						for (int i = 0; i < valoresY.length ; i++) {
+							double a = arbol.evalua(i-565);
+							if (a < -315) {
+								a = -315;
+							}else if (a > 315) {
+								a = 315;
 							}
-							agregaFuncion(valoresY);
-						}catch(ExcepcionEntradaInvalida e){
-							excepciones.setFill(Color.FIREBRICK);
-							excepciones.setText(e.getMessage());
+							valoresY[i] = a;
 						}
+						agregaFuncion(valoresY, color.getValue());
+					}catch(ExcepcionEntradaInvalida e){
+						excepciones.setFill(Color.FIREBRICK);
+						excepciones.setText(e.getMessage());
 					}
 				}
-			});
+			}
+		});
+
+		generaGraf.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent ev){
+				try{
+					controlador.setAnalizadorLexico(entradaFuncion.getText());
+					NodoArbol arbol = controlador.pideArbol();
+					double[] valoresY = new double[1130];
+					for (int i = 0; i < valoresY.length ; i++) {
+						double a = arbol.evalua(i-565);
+						if (a < -315) {
+							a = -315;
+						}else if (a > 315) {
+							a = 315;
+						}
+						valoresY[i] = a;
+					}
+					agregaFuncion(valoresY, color.getValue());
+				}catch(ExcepcionEntradaInvalida e){
+					excepciones.setFill(Color.FIREBRICK);
+					excepciones.setText(e.getMessage());
+				}
+			}
+		});
+
+		limpia.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent ev){
+				resetea();
+			}
+		});
+
+		soporte.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent ev){
+			   try {         
+			     java.awt.Desktop.getDesktop().browse(java.net.URI.create("mailto:pablo.t645@hotmail.com?Subject=Problemas%20con%20FuncGraph%20:("));
+			   }
+			   catch (java.io.IOException e) {
+			       System.out.println(e.getMessage());
+			   }
+			}
+		});
 
 
 		root.getChildren().add(bordes);
@@ -200,23 +240,17 @@ public class Vista extends Application{
 		bordes.setCenter(ejes);
     }
 
-    public void agregaFuncion(double[] valoresY){
+    public void agregaFuncion(double[] valoresY, Paint color){
     	for (int i = 0; i < valoresY.length-1 ; i++) {
     		if (valoresY[i] == -315 || valoresY[i+1] == 315) {
     			
     		}else{
-    			this.ejes.getChildren().add(new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1])));
+    			Line a = new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1]));
+    			a.setStroke(color);
+    			this.ejes.getChildren().add(a);
     		}
     	}
     	bordes.setCenter(ejes);
-    }
-
-    public TextField[] camposTexto(){
-    	return new TextField[]{entradaFuncion, despX, despY};
-    }
-
-    public Button[] botones(){
-    	return new Button[]{generaGraf, color, svg, pdf, jpg, limpia, soporte};
     }
 
 }

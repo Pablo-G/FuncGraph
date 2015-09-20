@@ -60,7 +60,7 @@ public class AnalizadorSintactico{
 					if (i == arreglo.length-1) {
 						throw new ExcepcionEntradaInvalida("E10-" + i + " | Expresión esperada.");
 					}
-					if (arreglo[i-1].getTipo() == Tipo.FUNCION) {
+					if (i != 0 && arreglo[i-1].getTipo() == Tipo.FUNCION) {
 						throw new ExcepcionEntradaInvalida("E11-" + i + " | '(' esperado.");
 					}
 					if (i == 0 || arreglo[i-1].getTipo() == Tipo.OPERADOR || arreglo[i-1].getValor() == Valor.ABIERTO) {
