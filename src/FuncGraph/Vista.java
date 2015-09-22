@@ -1,5 +1,7 @@
 package FuncGraph;
 
+import java.util.LinkedList;
+import java.util.ListIterator;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -21,6 +23,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Paint;
+import javafx.scene.input.ScrollEvent;
 
 public class Vista extends Application{
 
@@ -43,6 +46,9 @@ public class Vista extends Application{
 	private int anchoCentro;
 	private int altoCentro;
 	private Controlador controlador;
+	private double despXd;
+	private double despYd;
+	private double zoom;
 
 	@Override public void start(Stage stage) {
 
@@ -75,7 +81,7 @@ public class Vista extends Application{
 	    gridME.add(excepciones, 0, 3);
 		color = new ColorPicker();
         color.setValue(Color.CORAL);
-		gridME.add(color, 0, 4);
+		gridME.add(color, 1, 4);
 
 		bordes.setLeft(gridME);
 
@@ -87,17 +93,17 @@ public class Vista extends Application{
 		HBox hsvg = new HBox(10);
 		hsvg.setAlignment(Pos.BOTTOM_CENTER);
 		hsvg.getChildren().add(svg);
-		gridMH.add(hsvg, 0, 0);
+		gridMH.add(hsvg, 2, 0);
 		pdf = new Button("Guardar en PDF");
 		HBox hpdf = new HBox(10);
 		hpdf.setAlignment(Pos.BOTTOM_CENTER);
 		hpdf.getChildren().add(pdf);
-		gridMH.add(hpdf, 1, 0);
+		//gridMH.add(hpdf, 1, 0);
 		jpg = new Button("Guardar en JPG");
 		HBox hjpg = new HBox(10);
 		hjpg.setAlignment(Pos.BOTTOM_CENTER);
 		hjpg.getChildren().add(jpg);
-		gridMH.add(hjpg, 2, 0);
+		//gridMH.add(hjpg, 0, 0);
 		limpia = new Button("Reset");
 		HBox hlimpia = new HBox(10);
 		hlimpia.setAlignment(Pos.BOTTOM_CENTER);
@@ -142,23 +148,36 @@ public class Vista extends Application{
 
 		bordes.setCenter(ejes);
 
+		LinkedList<Paint> colofunciones = new LinkedList<Paint>();
+		zoom = 0;
+		despXd = 0;
+		despYd = 0;
+		
+		scene.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override public void handle(ScrollEvent e) {
+            	if (e.getDeltaY() > 0) {
+            		zoom = zoom + 1;
+            	}else{
+            		zoom = zoom - 1;
+            	}
+            	resetea();
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
+
+            	for (double[] a: funciones) {
+            		agregaFuncion(a, itcol.next());
+            	}
+            }
+        });
+
 		entradaFuncion.setOnKeyPressed(new EventHandler<KeyEvent>(){
 			@Override public void handle(final KeyEvent kE){
 				if (kE.getCode() == KeyCode.ENTER) {
 					try{
 						controlador.setAnalizadorLexico(entradaFuncion.getText());
-						NodoArbol arbol = controlador.pideArbol();
-						double[] valoresY = new double[1130];
-						for (int i = 0; i < valoresY.length ; i++) {
-							double a = arbol.evalua(i-565);
-							if (a < -315) {
-								a = -315;
-							}else if (a > 315) {
-								a = 315;
-							}
-							valoresY[i] = a;
-						}
-						agregaFuncion(valoresY, color.getValue());
+						controlador.generaArbol();
+						agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
+						colofunciones.add(color.getValue());
 					}catch(ExcepcionEntradaInvalida e){
 						excepciones.setFill(Color.FIREBRICK);
 						excepciones.setText(e.getMessage());
@@ -171,18 +190,9 @@ public class Vista extends Application{
 			@Override public void handle(ActionEvent ev){
 				try{
 					controlador.setAnalizadorLexico(entradaFuncion.getText());
-					NodoArbol arbol = controlador.pideArbol();
-					double[] valoresY = new double[1130];
-					for (int i = 0; i < valoresY.length ; i++) {
-						double a = arbol.evalua(i-565);
-						if (a < -315) {
-							a = -315;
-						}else if (a > 315) {
-							a = 315;
-						}
-						valoresY[i] = a;
-					}
-					agregaFuncion(valoresY, color.getValue());
+					controlador.generaArbol();
+					agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
+					colofunciones.add(color.getValue());
 				}catch(ExcepcionEntradaInvalida e){
 					excepciones.setFill(Color.FIREBRICK);
 					excepciones.setText(e.getMessage());
@@ -193,6 +203,11 @@ public class Vista extends Application{
 		limpia.setOnAction(new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent ev){
 				resetea();
+				controlador.resetea();
+				colofunciones.clear();
+				zoom = 0;
+				despXd = 0;
+				despYd = 0;
 			}
 		});
 
@@ -242,7 +257,7 @@ public class Vista extends Application{
 
     public void agregaFuncion(double[] valoresY, Paint color){
     	for (int i = 0; i < valoresY.length-1 ; i++) {
-    		if (valoresY[i] == -315 || valoresY[i+1] == 315) {
+    		if (valoresY[i] == -315 || valoresY[i] == 315) {
     			
     		}else{
     			Line a = new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1]));
