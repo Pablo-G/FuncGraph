@@ -77,11 +77,11 @@ public class Vista extends Application{
 		hgeneraGraf.setAlignment(Pos.BOTTOM_CENTER);
 		hgeneraGraf.getChildren().add(generaGraf);
 		gridME.add(hgeneraGraf, 0, 2);
-		excepciones = new Text();
-	    gridME.add(excepciones, 0, 3);
 		color = new ColorPicker();
         color.setValue(Color.CORAL);
 		gridME.add(color, 1, 4);
+		excepciones = new Text();
+	    gridME.add(excepciones, 1, 5);
 
 		bordes.setLeft(gridME);
 
@@ -160,7 +160,7 @@ public class Vista extends Application{
             	}else{
             		zoom = zoom - 1;
             	}
-            	resetea();
+            	reseteaPant(despXd, despYd);
             	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
             	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
@@ -174,6 +174,7 @@ public class Vista extends Application{
 			@Override public void handle(final KeyEvent kE){
 				if (kE.getCode() == KeyCode.ENTER) {
 					try{
+						excepciones.setText("");
 						controlador.setAnalizadorLexico(entradaFuncion.getText());
 						controlador.generaArbol();
 						agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
@@ -186,9 +187,52 @@ public class Vista extends Application{
 			}
 		});
 
+		despX.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			@Override public void handle(final KeyEvent kE){
+				if (kE.getCode() == KeyCode.ENTER) {
+					try{
+						excepciones.setText("");
+						despXd = Double.parseDouble(despX.getText());
+						reseteaPant(despXd, despYd);
+		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+		            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
+
+		            	for (double[] a: funciones) {
+		            		agregaFuncion(a, itcol.next());
+		            	}
+					}catch(Exception e){
+						excepciones.setFill(Color.FIREBRICK);
+						excepciones.setText("Debes poner un número!");
+					}
+				}
+			}
+		});
+
+		despY.setOnKeyPressed(new EventHandler<KeyEvent>(){
+			@Override public void handle(final KeyEvent kE){
+				if (kE.getCode() == KeyCode.ENTER) {
+					try{
+						excepciones.setText("");
+						despYd = Double.parseDouble(despY.getText());
+						reseteaPant(despXd, despYd);
+		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+		            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
+
+		            	for (double[] a: funciones) {
+		            		agregaFuncion(a, itcol.next());
+		            	}
+					}catch(Exception e){
+						excepciones.setFill(Color.FIREBRICK);
+						excepciones.setText("Debes poner un número!");
+					}
+				}
+			}
+		});
+
 		generaGraf.setOnAction(new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent ev){
 				try{
+					excepciones.setText("");
 					controlador.setAnalizadorLexico(entradaFuncion.getText());
 					controlador.generaArbol();
 					agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
@@ -202,7 +246,7 @@ public class Vista extends Application{
 
 		limpia.setOnAction(new EventHandler<ActionEvent>(){
 			@Override public void handle(ActionEvent ev){
-				resetea();
+				reseteaPant(despXd, despYd);
 				controlador.resetea();
 				colofunciones.clear();
 				zoom = 0;
@@ -230,26 +274,40 @@ public class Vista extends Application{
 
     }
 
-    public void resetea(){
+    public void reseteaPant(double despXd, double despYd){
+
     	Group ejesN = new Group();
 
-		Line ejeX = new Line(0, 315, 1130, 315);
-		Line ejeY = new Line(565, 0, 565, 630);
-		Line fXA = new Line(1125, 310, 1130, 315);
-		Line fXB = new Line(1125, 320, 1130, 315);
-		Line fYA = new Line(560, 5, 565, 0);
-		Line fYB = new Line(570, 5, 565, 0);
-		Text teX = new Text(1120, 335, "x");
-		Text teY = new Text(580, 10, "y");
+		Line ejeX = new Line(0, 315 - despYd, 1130, 315 - despYd);
+		Line ejeY = new Line(565 + despXd, 0, 565 + despXd, 630);
+		Line fXA = new Line(1125, 310 - despYd, 1130, 315 - despYd);
+		Line fXB = new Line(1125, 320 - despYd, 1130, 315 - despYd);
+		Line fYA = new Line(560 + despXd, 5, 565 + despXd, 0);
+		Line fYB = new Line(570 + despXd, 5, 565 + despXd, 0);
+		Text teX = new Text(1120, 335 - despYd, "x");
+		Text teY = new Text(580 + despXd, 10, "y");
 
-		ejesN.getChildren().add(ejeX);
-		ejesN.getChildren().add(ejeY);
-		ejesN.getChildren().add(fXA);
-		ejesN.getChildren().add(fXB);
-		ejesN.getChildren().add(fYA);
-		ejesN.getChildren().add(fYB);
-		ejesN.getChildren().add(teX);
-		ejesN.getChildren().add(teY);
+		if (despYd >= -290 && despYd <= 315) {
+			ejesN.getChildren().add(ejeX);
+			ejesN.getChildren().add(fXA);
+			ejesN.getChildren().add(fXB);
+			ejesN.getChildren().add(teX);		
+		}else{
+			ejeX = new Line(0, 0, 1130, 0);
+			ejeX.setStroke(Color.WHITE);
+			ejesN.getChildren().add(ejeX);
+		}
+		
+		if (despXd >= -565 && despXd <= 565) {
+			ejesN.getChildren().add(ejeY);
+			ejesN.getChildren().add(fYA);
+			ejesN.getChildren().add(fYB);
+			ejesN.getChildren().add(teY);	
+		}else{
+			ejeY = new Line(0, 0, 0, 630);
+			ejeY.setStroke(Color.WHITE);
+			ejesN.getChildren().add(ejeY);
+		}
 
 		this.ejes = ejesN;
 		bordes.setCenter(ejes);

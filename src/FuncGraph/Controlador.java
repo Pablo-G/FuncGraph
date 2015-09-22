@@ -26,12 +26,12 @@ public class Controlador{
 		for (int i = 0; i < valoresY.length ; i++) {
 			double a = 0;
 			if (zoom == 0) {
-				a = ult.evalua(i-((565)-despX));
+				a = ult.evalua(i-((565)+despX));
 			}else if (zoom > 0) {
-				a = ult.evalua((i-((565)-despX))/zoom);
+				a = ult.evalua((i-((565)+despX))/zoom);
 				a = a * zoom;
 			}else{
-				a = ult.evalua((i-((565)-despX))*(-zoom));
+				a = ult.evalua((i-((565)+despX))*(-zoom));
 				a = a * (-zoom);
 			}
 			a = a + despY;
@@ -52,12 +52,12 @@ public class Controlador{
 			for (int i = 0; i < valoresY.length ; i++) {
 				double a = 0;
 				if (zoom == 0) {
-					a = nodo.evalua(i-((565)-despX));
+					a = nodo.evalua(i-((565)+despX));
 				}else if (zoom > 0) {
-					a = nodo.evalua((i-((565)-despX))/zoom);
+					a = nodo.evalua((i-((565)+despX))/zoom);
 					a = a * zoom;
 				}else{
-					a = nodo.evalua((i-((565)-despX))*(-zoom));
+					a = nodo.evalua((i-((565)+despX))*(-zoom));
 					a = a * (-zoom);
 				}
 				a = a + despY;
