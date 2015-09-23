@@ -24,6 +24,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.paint.Paint;
 import javafx.scene.input.ScrollEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 
 public class Vista extends Application{
 
@@ -49,6 +51,8 @@ public class Vista extends Application{
 	private double despXd;
 	private double despYd;
 	private double zoom;
+	private double width;
+	private double height;
 
 	@Override public void start(Stage stage) {
 
@@ -60,6 +64,14 @@ public class Vista extends Application{
 
         Group root = new Group();
         Scene scene = new Scene(root, 1440, 710);
+
+        /*Inicializando valores*/
+        LinkedList<Paint> colofunciones = new LinkedList<Paint>();
+		zoom = 0;
+		despXd = 0;
+		despYd = 0;
+        width = 1440;
+        height = 710;
 		bordes = new BorderPane();
 
 		/* - MENU ENTRADA - */
@@ -128,14 +140,14 @@ public class Vista extends Application{
 		/* - Vista Graficas - */
 		ejes = new Group();
 
-		Line ejeX = new Line(0, 315, 1130, 315);
-		Line ejeY = new Line(565, 0, 565, 630);
-		Line fXA = new Line(1125, 310, 1130, 315);
-		Line fXB = new Line(1125, 320, 1130, 315);
-		Line fYA = new Line(560, 5, 565, 0);
-		Line fYB = new Line(570, 5, 565, 0);
-		Text teX = new Text(1120, 335, "x");
-		Text teY = new Text(580, 10, "y");
+		Line ejeX = new Line(0, (height-80)/2, width-310, (height-80)/2);
+		Line ejeY = new Line((width-310)/2, 0, (width-310)/2, (height-80));
+		Line fXA = new Line(width-315, ((height-80)/2)-5, width-310, (height-80)/2);
+		Line fXB = new Line(width-315, ((height-80)/2)+5, width-310, (height-80)/2);
+		Line fYA = new Line(((width-310)/2)-5, 5, (width-310)/2, 0);
+		Line fYB = new Line(((width-310)/2)+5, 5, (width-310)/2, 0);
+		Text teX = new Text(width-320, ((height-80)/2)+20, "x");
+		Text teY = new Text(((width-310)/2)+15, 10, "y");
 
 		ejes.getChildren().add(ejeX);
 		ejes.getChildren().add(ejeY);
@@ -147,11 +159,6 @@ public class Vista extends Application{
 		ejes.getChildren().add(teY);
 
 		bordes.setCenter(ejes);
-
-		LinkedList<Paint> colofunciones = new LinkedList<Paint>();
-		zoom = 0;
-		despXd = 0;
-		despYd = 0;
 		
 		scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override public void handle(ScrollEvent e) {
@@ -168,6 +175,34 @@ public class Vista extends Application{
             		agregaFuncion(a, itcol.next());
             	}
             }
+        });
+
+        scene.widthProperty().addListener(new ChangeListener<Number>(){
+        	@Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+        		width = stage.getWidth();
+        		height = stage.getHeight();
+        		reseteaPant(despXd, despYd);
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
+
+            	for (double[] a: funciones) {
+            		agregaFuncion(a, itcol.next());
+            	}
+        	}
+        });
+
+        scene.heightProperty().addListener(new ChangeListener<Number>(){
+        	@Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
+        		width = stage.getWidth();
+        		height = stage.getHeight();
+        		reseteaPant(despXd, despYd);
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
+
+            	for (double[] a: funciones) {
+            		agregaFuncion(a, itcol.next());
+            	}
+        	}
         });
 
 		entradaFuncion.setOnKeyPressed(new EventHandler<KeyEvent>(){
@@ -278,33 +313,34 @@ public class Vista extends Application{
 
     	Group ejesN = new Group();
 
-		Line ejeX = new Line(0, 315 - despYd, 1130, 315 - despYd);
-		Line ejeY = new Line(565 + despXd, 0, 565 + despXd, 630);
-		Line fXA = new Line(1125, 310 - despYd, 1130, 315 - despYd);
-		Line fXB = new Line(1125, 320 - despYd, 1130, 315 - despYd);
-		Line fYA = new Line(560 + despXd, 5, 565 + despXd, 0);
-		Line fYB = new Line(570 + despXd, 5, 565 + despXd, 0);
-		Text teX = new Text(1120, 335 - despYd, "x");
-		Text teY = new Text(580 + despXd, 10, "y");
 
-		if (despYd >= -290 && despYd <= 315) {
+		Line ejeX = new Line(0, ((height-120)/2)-despYd, (width-330), ((height-120)/2)-despYd);
+		Line ejeY = new Line(((width-330)/2)+despXd, 0, ((width-330)/2)+despXd, (height-120));
+		Line fXA = new Line((width-330)-5, (((height-120)/2)-5)-despYd, (width-330), ((height-120)/2)-despYd);
+		Line fXB = new Line((width-330)-5, (((height-120)/2)+5)-despYd, (width-330), ((height-120)/2)-despYd);
+		Line fYA = new Line((((width-330)/2)-5)+despXd, 5, ((width-330)/2)+despXd, 0);
+		Line fYB = new Line((((width-330)/2)+5)+despXd, 5, ((width-330)/2)+despXd, 0);
+		Text teX = new Text(width-290, (((height-120)/2)+20)-despYd, "x");
+		Text teY = new Text((((width-330)/2)+15)+despXd, 10, "y");
+
+		if (despYd >= -(((height-120)/2)-25) && despYd <= (height-120)/2) {
 			ejesN.getChildren().add(ejeX);
 			ejesN.getChildren().add(fXA);
 			ejesN.getChildren().add(fXB);
 			ejesN.getChildren().add(teX);		
 		}else{
-			ejeX = new Line(0, 0, 1130, 0);
+			ejeX = new Line(0, 0, width-330, 0);
 			ejeX.setStroke(Color.WHITE);
 			ejesN.getChildren().add(ejeX);
 		}
 		
-		if (despXd >= -565 && despXd <= 565) {
+		if (despXd >= -(width-330)/2 && despXd <= (width-330)/2) {
 			ejesN.getChildren().add(ejeY);
 			ejesN.getChildren().add(fYA);
 			ejesN.getChildren().add(fYB);
 			ejesN.getChildren().add(teY);	
 		}else{
-			ejeY = new Line(0, 0, 0, 630);
+			ejeY = new Line(0, 0, 0, height-120);
 			ejeY.setStroke(Color.WHITE);
 			ejesN.getChildren().add(ejeY);
 		}
