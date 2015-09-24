@@ -28,6 +28,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.stage.FileChooser;
 import java.io.File;
+import javafx.scene.Cursor;
+import javafx.scene.input.MouseEvent;
 
 public class Vista extends Application{
 
@@ -53,6 +55,8 @@ public class Vista extends Application{
 	private double zoom;
 	private double width;
 	private double height;
+	private double iniMX;
+	private double iniMY;
 
 	@Override public void start(Stage stage) {
 
@@ -72,6 +76,8 @@ public class Vista extends Application{
 		despYd = 0;
         width = 1440;
         height = 710;
+        iniMX = 0;
+        iniMY = 0;
 		bordes = new BorderPane();
 
 		/* - MENU ENTRADA - */
@@ -148,6 +154,29 @@ public class Vista extends Application{
             	}
             }
         });
+
+		scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+		    @Override public void handle(MouseEvent mouseEvent) {
+		    	scene.setCursor(Cursor.MOVE);
+		    	iniMX = mouseEvent.getSceneX();
+		  		iniMY = mouseEvent.getSceneY();
+		    }
+		});
+
+		scene.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		    @Override public void handle(MouseEvent mouseEvent) {
+		    	scene.setCursor(Cursor.DEFAULT);
+		    	despXd = despXd - (iniMX - mouseEvent.getSceneX());
+		    	despYd = despYd + (iniMY - mouseEvent.getSceneY());
+
+				reseteaPant(despXd, despYd);
+		        LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
+		        ListIterator<Paint> itcol = colofunciones.listIterator(0);
+		        for (double[] a: funciones) {
+		          	agregaFuncion(a, itcol.next());
+		        }
+		    }
+		});
 
         scene.widthProperty().addListener(new ChangeListener<Number>(){
         	@Override public void changed(ObservableValue<? extends Number> observableValue, Number oldSceneWidth, Number newSceneWidth) {
