@@ -30,6 +30,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.image.Image;
 
 public class Vista extends Application{
 
@@ -324,6 +325,7 @@ public class Vista extends Application{
 
 		root.getChildren().add(bordes);
         stage.setTitle("FuncGraph");
+        stage.getIcons().add(new Image("file:./lib/assets/ICON.png")); 
         stage.setScene(scene);
         stage.show();
 
