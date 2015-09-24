@@ -26,6 +26,8 @@ import javafx.scene.paint.Paint;
 import javafx.scene.input.ScrollEvent;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 public class Vista extends Application{
 
@@ -38,8 +40,6 @@ public class Vista extends Application{
 	private Button generaGraf;
 	private ColorPicker color;
 	private Button svg;
-	private Button pdf;
-	private Button jpg;
 	private Button limpia;
 	private Button soporte;
 	private BorderPane bordes;
@@ -106,16 +106,6 @@ public class Vista extends Application{
 		hsvg.setAlignment(Pos.BOTTOM_CENTER);
 		hsvg.getChildren().add(svg);
 		gridMH.add(hsvg, 2, 0);
-		pdf = new Button("Guardar en PDF");
-		HBox hpdf = new HBox(10);
-		hpdf.setAlignment(Pos.BOTTOM_CENTER);
-		hpdf.getChildren().add(pdf);
-		//gridMH.add(hpdf, 1, 0);
-		jpg = new Button("Guardar en JPG");
-		HBox hjpg = new HBox(10);
-		hjpg.setAlignment(Pos.BOTTOM_CENTER);
-		hjpg.getChildren().add(jpg);
-		//gridMH.add(hjpg, 0, 0);
 		limpia = new Button("Reset");
 		HBox hlimpia = new HBox(10);
 		hlimpia.setAlignment(Pos.BOTTOM_CENTER);
@@ -258,6 +248,25 @@ public class Vista extends Application{
 					excepciones.setFill(Color.FIREBRICK);
 					excepciones.setText(e.getMessage());
 				}
+			}
+		});
+
+		svg.setOnAction(new EventHandler<ActionEvent>(){
+			@Override public void handle(ActionEvent ev){
+				ImpresoraSVG iSVG = new ImpresoraSVG(controlador);
+				FileChooser fc = new FileChooser();
+
+	          	fc.setInitialFileName("NuevaGrafica.svg");
+	           	fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("SVG", "*.svg"));
+				fc.setTitle("Guardar Como...");
+			 	File arch = fc.showSaveDialog(stage);
+			    if (arch != null) {
+			    	try{
+			        	iSVG.imprimeSVG(arch.toString(), zoom, despXd, despYd);
+			    	}catch(Exception e){
+			    		//Inalcanzable
+			    	}
+			    }
 			}
 		});
 

@@ -63,6 +63,29 @@ public class Controlador{
 		return evaluaciones;
 	}
 
+	public LinkedList<double[]> evaluaTodo(double zoom, double despX, double despY, int width, boolean b){
+		LinkedList<double[]> evaluaciones = new LinkedList<double[]>();
+		for (NodoArbol nodo : funciones) {
+			double[] valoresY = new double[width];
+			for (int i = 0; i < valoresY.length ; i++) {
+				double a = 0;
+				if (zoom == 0) {
+					a = nodo.evalua(i-(((width)/2)+despX));
+				}else if (zoom > 0) {
+					a = nodo.evalua((i-(((width)/2)+despX))/zoom);
+					a = a * zoom;
+				}else{
+					a = nodo.evalua((i-(((width)/2)+despX))*(-zoom));
+					a = a / (-zoom);
+				}
+				a = a + despY;
+				valoresY[i] = a;
+			}
+			evaluaciones.add(valoresY);
+		}
+		return evaluaciones;
+	}
+
 	public void resetea(){
 		funciones = new LinkedList<NodoArbol>();
 	}
