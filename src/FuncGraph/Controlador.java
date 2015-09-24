@@ -20,52 +20,42 @@ public class Controlador{
 		funciones.add(anS.generaArbol());
 	}
 
-	public double[] evaluaUltimo(double zoom, double despX, double despY){
+	public double[] evaluaUltimo(double zoom, double despX, double despY, int width){
 		NodoArbol ult = funciones.getLast();
-		double[] valoresY = new double[1130];
+		double[] valoresY = new double[width-330];
 		for (int i = 0; i < valoresY.length ; i++) {
 			double a = 0;
 			if (zoom == 0) {
-				a = ult.evalua(i-((565)+despX));
+				a = ult.evalua(i-(((width-330)/2)+despX));
 			}else if (zoom > 0) {
-				a = ult.evalua((i-((565)+despX))/zoom);
+				a = ult.evalua((i-(((width-330)/2)+despX))/zoom);
 				a = a * zoom;
 			}else{
-				a = ult.evalua((i-((565)+despX))*(-zoom));
+				a = ult.evalua((i-(((width-330)/2)+despX))*(-zoom));
 				a = a * (-zoom);
 			}
 			a = a + despY;
-			if (a < -315) {
-				a = -315;
-			}else if (a > 315) {
-				a = 315;
-			}
 			valoresY[i] = a;
 		}
 		return valoresY;
 	}
 
-	public LinkedList<double[]> evaluaTodo(double zoom, double despX, double despY){
+	public LinkedList<double[]> evaluaTodo(double zoom, double despX, double despY, int width){
 		LinkedList<double[]> evaluaciones = new LinkedList<double[]>();
 		for (NodoArbol nodo : funciones) {
-			double[] valoresY = new double[1130];
+			double[] valoresY = new double[width-330];
 			for (int i = 0; i < valoresY.length ; i++) {
 				double a = 0;
 				if (zoom == 0) {
-					a = nodo.evalua(i-((565)+despX));
+					a = nodo.evalua(i-(((width-330)/2)+despX));
 				}else if (zoom > 0) {
-					a = nodo.evalua((i-((565)+despX))/zoom);
+					a = nodo.evalua((i-(((width-330)/2)+despX))/zoom);
 					a = a * zoom;
 				}else{
-					a = nodo.evalua((i-((565)+despX))*(-zoom));
-					a = a * (-zoom);
+					a = nodo.evalua((i-(((width-330)/2)+despX))*(-zoom));
+					a = a / (-zoom);
 				}
 				a = a + despY;
-				if (a < -315) {
-					a = -315;
-				}else if (a > 315) {
-					a = 315;
-				}
 				valoresY[i] = a;
 			}
 			evaluaciones.add(valoresY);

@@ -140,25 +140,7 @@ public class Vista extends Application{
 		/* - Vista Graficas - */
 		ejes = new Group();
 
-		Line ejeX = new Line(0, (height-80)/2, width-310, (height-80)/2);
-		Line ejeY = new Line((width-310)/2, 0, (width-310)/2, (height-80));
-		Line fXA = new Line(width-315, ((height-80)/2)-5, width-310, (height-80)/2);
-		Line fXB = new Line(width-315, ((height-80)/2)+5, width-310, (height-80)/2);
-		Line fYA = new Line(((width-310)/2)-5, 5, (width-310)/2, 0);
-		Line fYB = new Line(((width-310)/2)+5, 5, (width-310)/2, 0);
-		Text teX = new Text(width-320, ((height-80)/2)+20, "x");
-		Text teY = new Text(((width-310)/2)+15, 10, "y");
-
-		ejes.getChildren().add(ejeX);
-		ejes.getChildren().add(ejeY);
-		ejes.getChildren().add(fXA);
-		ejes.getChildren().add(fXB);
-		ejes.getChildren().add(fYA);
-		ejes.getChildren().add(fYB);
-		ejes.getChildren().add(teX);
-		ejes.getChildren().add(teY);
-
-		bordes.setCenter(ejes);
+		reseteaPant(despXd, despYd);
 		
 		scene.setOnScroll(new EventHandler<ScrollEvent>() {
             @Override public void handle(ScrollEvent e) {
@@ -168,7 +150,7 @@ public class Vista extends Application{
             		zoom = zoom - 1;
             	}
             	reseteaPant(despXd, despYd);
-            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
             	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
             	for (double[] a: funciones) {
@@ -182,7 +164,7 @@ public class Vista extends Application{
         		width = stage.getWidth();
         		height = stage.getHeight();
         		reseteaPant(despXd, despYd);
-            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
             	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
             	for (double[] a: funciones) {
@@ -196,7 +178,7 @@ public class Vista extends Application{
         		width = stage.getWidth();
         		height = stage.getHeight();
         		reseteaPant(despXd, despYd);
-            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
             	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
             	for (double[] a: funciones) {
@@ -212,7 +194,7 @@ public class Vista extends Application{
 						excepciones.setText("");
 						controlador.setAnalizadorLexico(entradaFuncion.getText());
 						controlador.generaArbol();
-						agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
+						agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd, (int)width), color.getValue());
 						colofunciones.add(color.getValue());
 					}catch(ExcepcionEntradaInvalida e){
 						excepciones.setFill(Color.FIREBRICK);
@@ -229,7 +211,7 @@ public class Vista extends Application{
 						excepciones.setText("");
 						despXd = Double.parseDouble(despX.getText());
 						reseteaPant(despXd, despYd);
-		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
 		            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
 		            	for (double[] a: funciones) {
@@ -250,7 +232,7 @@ public class Vista extends Application{
 						excepciones.setText("");
 						despYd = Double.parseDouble(despY.getText());
 						reseteaPant(despXd, despYd);
-		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd);
+		            	LinkedList<double[]> funciones = controlador.evaluaTodo(zoom, despXd, despYd, (int)width);
 		            	ListIterator<Paint> itcol = colofunciones.listIterator(0);
 
 		            	for (double[] a: funciones) {
@@ -270,7 +252,7 @@ public class Vista extends Application{
 					excepciones.setText("");
 					controlador.setAnalizadorLexico(entradaFuncion.getText());
 					controlador.generaArbol();
-					agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd), color.getValue());
+					agregaFuncion(controlador.evaluaUltimo(zoom, despXd, despYd, (int)width), color.getValue());
 					colofunciones.add(color.getValue());
 				}catch(ExcepcionEntradaInvalida e){
 					excepciones.setFill(Color.FIREBRICK);
@@ -320,7 +302,7 @@ public class Vista extends Application{
 		Line fXB = new Line((width-330)-5, (((height-120)/2)+5)-despYd, (width-330), ((height-120)/2)-despYd);
 		Line fYA = new Line((((width-330)/2)-5)+despXd, 5, ((width-330)/2)+despXd, 0);
 		Line fYB = new Line((((width-330)/2)+5)+despXd, 5, ((width-330)/2)+despXd, 0);
-		Text teX = new Text(width-290, (((height-120)/2)+20)-despYd, "x");
+		Text teX = new Text(width-345, (((height-120)/2)+15)-despYd, "x");
 		Text teY = new Text((((width-330)/2)+15)+despXd, 10, "y");
 
 		if (despYd >= -(((height-120)/2)-25) && despYd <= (height-120)/2) {
@@ -351,12 +333,10 @@ public class Vista extends Application{
 
     public void agregaFuncion(double[] valoresY, Paint color){
     	for (int i = 0; i < valoresY.length-1 ; i++) {
-    		if (valoresY[i] == -315 || valoresY[i] == 315) {
-    			
-    		}else{
-    			Line a = new Line(i, 630-(315+valoresY[i]), i+1, 630-(315+valoresY[i+1]));
+    		if (valoresY[i] >= -(height-120)/2 && valoresY[i] <= (height-120)/2 && valoresY[i+1] >= -(height-120)/2 && valoresY[i+1] <= (height-120)/2) {
+    			Line a = new Line(i, (height-120)-((height-120)/2+valoresY[i]), i+1, (height-120)-((height-120)/2+valoresY[i+1]));
     			a.setStroke(color);
-    			this.ejes.getChildren().add(a);
+    			this.ejes.getChildren().add(a);		
     		}
     	}
     	bordes.setCenter(ejes);
