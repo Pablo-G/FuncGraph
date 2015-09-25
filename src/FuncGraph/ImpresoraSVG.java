@@ -1,3 +1,13 @@
+/**
+ *Clase <code>ImpresoraSVG</code>.
+ *Impresora de SVG para la aplicación FuncGraph.
+ *Genera un y guarda en el equipo un archivo SVG con una representación de una función.
+ *Esta se crea a partir de valores dados.
+ *En el patrón de diseño MVC esta clase es otra vista.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph;
 
 import java.io.*;
@@ -9,6 +19,9 @@ public class ImpresoraSVG{
 	private Controlador controlador;
 	private Random random;
 
+    /**
+     *<code>ImpresoraSVG</code> Constructor.
+     */
 	public ImpresoraSVG(){
 		try{
 			controlador = new Controlador();
@@ -18,11 +31,23 @@ public class ImpresoraSVG{
 		}
 	}
 
+    /**
+     *<code>generaListaTokens</code> Constructor.
+     *@param controlador tipo <code>Controlador</code>: Controlador.
+     */
 	public ImpresoraSVG(Controlador controlador){
 		this.controlador = controlador;
 		this.random = new Random();
 	}
 
+    /**
+     *<code>imprimeSVG</code> Método que crea el archivo SVG con la representación grafica de la función.
+     *@param s tipo <code>String</code>: Ruta del archivo a crear.
+     *@param zoom tipo <code>double</code>: Zoom que tiene la función.
+     *@param despX tipo <code>double</code>: Desplazamiento en el eje X de la función.
+     *@param despY tipo <code>double</code>: Desplazamiento en el eje Y de la función.
+     *Manda una excepción en caso de no poder crear el archivo.
+     */
 	public void imprimeSVG(String s, double zoom, double despXd, double despYd) throws Exception{
 		File temp = new File(s);
 		try{

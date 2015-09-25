@@ -1,3 +1,12 @@
+/**
+ *Clase <code>AnalizadorLexico</code>.
+ *Analizador Lexico para la aplicación FuncGraph.
+ *Contiene un método para transformar una String en una lista de Tokens.
+ *Creada: Sep 2015
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph;
 
 import java.util.LinkedList;
@@ -6,10 +15,19 @@ public class AnalizadorLexico{
 	
 	String entrada;
 
+    /**
+     *<code>AnalizadorLexico</code> Constructor.
+     *@param entrada tipo <code>String</code>: Una función f(x) en notación infija.
+     */
 	public AnalizadorLexico(String entrada){
 		this.entrada = entrada;
 	}
 
+    /**
+     *<code>generaListaTokens</code> Método que genera la lista de Tokens de la función insertada en el constructor.
+     *@return tipo <code>LinkedList<Token></code>: Lista de Tokens.
+     *Manda una excepción en caso de encontrar un identificador no válido.
+     */
 	public LinkedList<Token> generaListaTokens() throws ExcepcionEntradaInvalida{
 
 		LinkedList<Token> lista = new LinkedList<Token>();
@@ -203,6 +221,11 @@ public class AnalizadorLexico{
 		}
 	}
 
+    /**
+     *<code>esDigito</code> Método que determina si un caracter es un dígito o no.
+     *@param a tipo <code>char</code>: Dígito.
+     *@return tipo <code>boolean<Token></code>: True si es un dígito; False en otro caso.
+     */
 	private boolean esDigito(char a){
 		if (a == '0' || a == '1' || a == '2' || a == '3' || a == '4' || a == '5' || a == '6' || a == '7' || a == '8' || a == '9') {
 			return true;		

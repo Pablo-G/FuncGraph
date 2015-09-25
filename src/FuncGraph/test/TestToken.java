@@ -1,3 +1,10 @@
+/**
+ *Clase <code>TestToken</code>.
+ *Clase para pruebas unitarias de la clase {@link Token}.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph.test;
 
 import org.junit.Assert;
@@ -15,6 +22,9 @@ public class TestToken{
 		this.random = new Random();
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#getTipo} y {@link Token#getValor}.
+     */	
 	@Test public void testTokenParentesis(){
 		Token t = new Token(Tipo.PARENTESIS, Valor.ABIERTO);
 		Assert.assertTrue(t.getTipo() == Tipo.PARENTESIS);
@@ -25,6 +35,9 @@ public class TestToken{
 		Assert.assertTrue(t.getValor() == Valor.CERRADO);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#getTipo} y {@link Token#getValor}.
+     */	
 	@Test public void testTokenOperador(){
 		Token t = new Token(Tipo.OPERADOR, Valor.SUMA);
 		Assert.assertTrue(t.getTipo() == Tipo.OPERADOR);
@@ -47,6 +60,9 @@ public class TestToken{
 		Assert.assertTrue(t.getValor() == Valor.POTENCIA);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#getTipo} y {@link Token#getValor}.
+     */	
 	@Test public void testTokenFuncion(){
 		Token t = new Token(Tipo.FUNCION, Valor.SIN);
 		Assert.assertTrue(t.getTipo() == Tipo.FUNCION);
@@ -73,12 +89,18 @@ public class TestToken{
 		Assert.assertTrue(t.getValor() == Valor.CSC);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#getTipo} y {@link Token#getValor}.
+     */	
 	@Test public void testTokenVariable(){
 		Token t = new Token(Tipo.VARIABLE, Valor.X);
 		Assert.assertTrue(t.getTipo() == Tipo.VARIABLE);
 		Assert.assertTrue(t.getValor() == Valor.X);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#getTipo}, {@link Token#getValor} y {@link Token#getDigitos}.
+     */	
 	@Test public void testTokenNumero(){
 
 		int a = random.nextInt();
@@ -95,6 +117,9 @@ public class TestToken{
 		Assert.assertTrue(t.getDigitos() == b);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#equals}.
+     */	
 	@Test public void testTokenEquals(){
 
 		int na = random.nextInt();
@@ -123,6 +148,9 @@ public class TestToken{
 		Assert.assertFalse(a.equals(e));
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#setValor}.
+     */	
 	@Test public void testSetValor(){
 		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
 		Token b = new Token(Tipo.OPERADOR, Valor.RESTA);
@@ -134,6 +162,9 @@ public class TestToken{
 		Assert.assertTrue(b.getValor() == Valor.MULTIPLICACION);
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#toString}.
+     */	
 	@Test public void testToString(){
 		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
 		Token b = new Token(Tipo.NUMERO, Valor.DIGITOS, 5.156);
@@ -142,6 +173,9 @@ public class TestToken{
 		Assert.assertTrue(b.toString().equals("[NUMERO , DIGITOS-|5.156|-]"));
 	}
 
+    /**
+     * Prueba unitaria para {@link Token#esMayorPres}.
+     */	
 	@Test public void testEsMayorPres(){
 		Token a = new Token(Tipo.OPERADOR, Valor.SUMA);
 		Token b = new Token(Tipo.OPERADOR, Valor.RESTA);
@@ -156,4 +190,5 @@ public class TestToken{
 		Assert.assertFalse(d.esMayorPres(a));
 		Assert.assertFalse(d.esMayorPres(c));
 	}
+
 }

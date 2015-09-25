@@ -1,3 +1,11 @@
+/**
+ *Clase <code>Vista</code>.
+ *Contiene métodos para generar una ventana en el escritorio.
+ *Permite que el usuario inserte funciones y se muestre una representación grafica de estas.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph;
 
 import java.util.LinkedList;
@@ -59,6 +67,10 @@ public class Vista extends Application{
 	private double iniMX;
 	private double iniMY;
 
+    /**
+     *<code>start</code> Método que genera las ventanas de la Vista.
+     *@param stage tipo <code>Stage</code>: Stage.
+     */
 	@Override public void start(Stage stage) {
 
 		try{
@@ -85,7 +97,7 @@ public class Vista extends Application{
 		GridPane gridME = new GridPane();
 		gridME.setAlignment(Pos.TOP_CENTER);
 		/*TEMPORAL*/
-		Label temp = new Label("Aqui va la función.");
+		Label temp = new Label("Aqui va la función:");
 		gridME.add(temp, 0, 0);
 		f = new Label("f(x)=");
 		gridME.add(f, 0, 1);
@@ -331,6 +343,11 @@ public class Vista extends Application{
 
     }
 
+    /**
+     *<code>reseteaPant</code> Método que resetea la pantalla y pinta nuevamente los ejes.
+     *@param despXd tipo <code>double</code>: Desplazamiento en X de los ejes.
+     *@param despYd tipo <code>double</code>: Desplazamiento en Y de los ejes.
+     */
     public void reseteaPant(double despXd, double despYd){
 
     	Group ejesN = new Group();
@@ -371,6 +388,11 @@ public class Vista extends Application{
 		bordes.setCenter(ejes);
     }
 
+    /**
+     *<code>agregaFuncion</code> Método que agrega una funcion a la pantalla.
+     *@param valoresY tipo <code>double[]</code>: Valores de la función en Y.
+     *@param color tipo <code>Paint</code>: Color con el que se mostrará la función.
+     */
     public void agregaFuncion(double[] valoresY, Paint color){
     	for (int i = 0; i < valoresY.length-1 ; i++) {
     		if (valoresY[i] >= -(height-120)/2 && valoresY[i] <= (height-120)/2 && valoresY[i+1] >= -(height-120)/2 && valoresY[i+1] <= (height-120)/2) {

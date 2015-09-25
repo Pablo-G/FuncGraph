@@ -1,3 +1,10 @@
+/**
+ *Clase <code>TestAnalizadorLexico</code>.
+ *Clase para pruebas unitarias de la clase {@link AnalizadorLexico}.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph.test;
 
 import org.junit.Assert;
@@ -10,9 +17,11 @@ import FuncGraph.Valor;
 import FuncGraph.AnalizadorLexico;
 import FuncGraph.ExcepcionEntradaInvalida;
 
-
 public class TestAnalizadorLexico{
-	
+
+    /**
+     * Prueba unitaria para {@link AnalizadorLexico#generaListaTokens}.
+     */
 	@Test public void testALVacio(){
 		try{
 			AnalizadorLexico al = new AnalizadorLexico("");
@@ -24,6 +33,9 @@ public class TestAnalizadorLexico{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link AnalizadorLexico#generaListaTokens}.
+     */
 	@Test public void testALInvalida(){
 		try{
 			AnalizadorLexico al = new AnalizadorLexico("lol");
@@ -57,6 +69,9 @@ public class TestAnalizadorLexico{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link AnalizadorLexico#generaListaTokens}.
+     */
 	@Test public void testALValidas(){
 		try{
 			AnalizadorLexico al1 = new AnalizadorLexico("-1");

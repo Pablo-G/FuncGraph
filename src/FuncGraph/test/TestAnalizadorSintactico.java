@@ -1,3 +1,10 @@
+/**
+ *Clase <code>TestAnalizadorSintactico</code>.
+ *Clase para pruebas unitarias de la clase {@link AnalizadorSintactico}.
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph.test;
 
 import org.junit.Assert;
@@ -12,7 +19,10 @@ import FuncGraph.AnalizadorSintactico;
 import FuncGraph.ExcepcionEntradaInvalida;
 
 public class TestAnalizadorSintactico{
-	
+
+    /**
+     * Prueba unitaria para {@link AnalizadorSintactico#verificaGramatica}.
+     */	
 	@Test public void testASInvalida(){
 		try{
 			AnalizadorSintactico an = new AnalizadorSintactico(new AnalizadorLexico("3(5+x)").generaListaTokens());
@@ -105,7 +115,10 @@ public class TestAnalizadorSintactico{
 		}catch(ExcepcionEntradaInvalida a){
 		}
 	}
-	
+
+    /**
+     * Prueba unitaria para {@link AnalizadorSintactico#verificaGramatica}.
+     */	
 	@Test public void testASValida(){
 		try{
 			AnalizadorSintactico an = new AnalizadorSintactico(new AnalizadorLexico("sin(x-20)").generaListaTokens());
@@ -139,6 +152,9 @@ public class TestAnalizadorSintactico{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link AnalizadorSintactico#verificaGramatica}.
+     */	
 	@Test public void testASShuntingYard(){
 		try{
 			AnalizadorSintactico an = new AnalizadorSintactico(new AnalizadorLexico("5+30*x-24").generaListaTokens());
@@ -193,6 +209,9 @@ public class TestAnalizadorSintactico{
 		}
 	}
 
+    /**
+     * Prueba unitaria para {@link AnalizadorSintactico#verificaGramatica}.
+     */	
 	@Test public void testASGeneraArbol(){
 		AnalizadorSintactico an;
 
@@ -230,6 +249,6 @@ public class TestAnalizadorSintactico{
 		}catch(ExcepcionEntradaInvalida a){
 			Assert.fail();
 		}
-
 	}
+	
 }

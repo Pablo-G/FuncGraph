@@ -1,3 +1,14 @@
+/**
+ *Clase <code>AnalizadorSintactico</code>.
+ *Analizador Sintáctico para la aplicación FuncGraph.
+ *Contiene umétodos para verificar la gramatica de una lista de Tokens,
+ * y generar un arbol sintáctico utlizando una implementación del algoritmo
+ * Shunting Yard.
+ *Creada: Sep 2015
+ *@author <a href="mailto:pablo.t645@hotmail.com">Pablo G.</a>
+ *@version 1.0
+ *Copyright 2015 Pablo G.
+ */
 package FuncGraph;
 
 import java.util.LinkedList;
@@ -8,10 +19,18 @@ public class AnalizadorSintactico{
 	
 	private LinkedList<Token> listaTokensInf;
 
+    /**
+     *<code>AnalizadorSintactico</code> Constructor.
+     *@param listaTokens tipo <code>LinkedList<Token></code>: Lista de Tokens.
+     */
 	public AnalizadorSintactico(LinkedList<Token> listaTokens){
 		this.listaTokensInf = listaTokens;
 	}
 
+    /**
+     *<code>verificaGramatica</code> Método que verifica la grámatica de la lista de Tokens.
+     *Manda una excepción en caso de encontrar algún error en la gramática.
+     */
 	public void verificaGramatica() throws ExcepcionEntradaInvalida{
 		Token[] arreglo = new Token[listaTokensInf.size()];
 		listaTokensInf.toArray(arreglo);
@@ -96,6 +115,11 @@ public class AnalizadorSintactico{
 		}
 	}
 
+    /**
+     *<code>shuntingYard</code> Implementación del algoritmo Shunting Yard que cambia el orden de la lista de Tokens, de notación infica a postfija.
+     *@return tipo <code>LinkedList<Token><Token></code>: Lista de Tokens en notación postfija.
+     *Manda una excepción en caso de encontrar un identificador no válido (Excepción mandada por verificaGramatica()).
+     */
 	public LinkedList<Token> shuntingYard() throws ExcepcionEntradaInvalida{
 		verificaGramatica();
 
@@ -126,6 +150,7 @@ public class AnalizadorSintactico{
 				}
 			}
 		}
+		
 		while(!stack.empty()){
 			nlistaTokens.add(stack.pop());
 		}
@@ -133,6 +158,11 @@ public class AnalizadorSintactico{
 		return nlistaTokens;
 	}
 
+    /**
+     *<code>generaArbol</code> Método que genera el árbol sintáctico.
+     *@return tipo <code>NodoArbol<Token></code>: Raiz del árbol sintáctico.
+     *Manda una excepción en caso de encontrar un identificador no válido (Excepción mandada por verificaGramatica()).
+     */
 	public NodoArbol generaArbol() throws ExcepcionEntradaInvalida{
 		ListIterator<Token> it = shuntingYard().listIterator(0);
 		Stack<NodoArbol> stack = new Stack<NodoArbol>();
@@ -162,4 +192,5 @@ public class AnalizadorSintactico{
 
 		return stack.pop();
 	}
+
 }
